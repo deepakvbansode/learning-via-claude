@@ -138,33 +138,80 @@ When ALL concepts are mastered, declare the user ready and generate the session 
 
 You've mastered all [N] concepts for $ARGUMENTS.
 
-### Session Summary Prompt
-Copy this into a new Claude Code session:
+### Session Notes
+Save this to a `<topic>.md` file for future reference:
 
 ---
-I've completed a learning session on $ARGUMENTS. Here's my context:
+# $ARGUMENTS
 
-**What I know:**
-[Bullet list of each concept with a 1-sentence summary in the user's own mental model,
-mapping to technologies they already know where applicable]
+## The Problem It Solves
+[2-3 sentences: what pain exists without this technology, and what it fundamentally does to fix it]
 
-**My mental model:**
-[2-3 sentences capturing the overall "how to think about" this technology]
-
-**Gotchas I should remember:**
-[3-5 common pitfalls specific to this technology]
-
-**I'm building:** [describe your task here]
 ---
 
-### Quick Reference Card
-[Concise cheat sheet: key APIs, patterns, and syntax the user will need most]
+## Core Concepts
+
+### [Concept Name]
+
+**Why:** [1-2 sentences: what specific problem this concept solves within the technology]
+
+**Mental model:** [1-2 sentences: analogy to something the user already knows — Go, K8s, Docker, PostgreSQL, etc.]
+
+**Example:**
+\`\`\`
+[Minimal, concrete code or config that illustrates the concept — not a full implementation]
+\`\`\`
+
+[Repeat for each concept]
+
+---
+
+## Gotchas
+1. [Specific, non-obvious pitfall with brief explanation]
+2. [...]
+3. [...]
+
+---
+
+## Quick Reference
+
+**[Key syntax / variables / commands]**
+\`\`\`
+thing1    // when/why to use it
+thing2    // when/why to use it
+\`\`\`
+
+**[Common patterns]**
+\`\`\`
+pattern1  // use for X
+pattern2  // use for Y
+\`\`\`
+
+**[Policies / options / flags]** *(if applicable)*
+
+| Option | Use when |
+|--------|----------|
+| opt1   | ...      |
+| opt2   | ...      |
+
+---
+
+### Session Handoff Prompt
+Copy this into a new Claude Code session when you're ready to build:
+
+---
+I know $ARGUMENTS well. Quick context:
+[2-3 sentence mental model of the whole technology in their own words]
+I'm building: [describe your task here]
+---
 \```
 
-**Important for the summary prompt:**
-- Write it from the USER's perspective (first person) — the new session should see them as knowledgeable
-- Reference their existing knowledge (Go, K8s, etc.) so the new session understands their mental model
-- Include the `[describe your task here]` placeholder so they can prime the new session with their specific task
+**Important for generating the notes:**
+- Write from the USER's perspective — notes they'll read later, not a tutorial
+- Every concept must have all three sections: Why, Mental model, Example
+- Mental models must reference their existing stack (Go, K8s, Docker, etc.)
+- Examples should be minimal and illustrative — not full implementations
+- Gotchas must be specific and actionable, not generic warnings
 
 ---
 

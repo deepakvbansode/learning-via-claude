@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/deepak.bansodegruve.ai/.claude/commands/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/deepak.bansodegruve.ai/.claude/commands"
+    ]
+  }
+}
