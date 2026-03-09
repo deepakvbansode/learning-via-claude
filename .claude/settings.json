@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Read(//Users/deepak.bansodegruve.ai/.claude/commands/**)"
+      "Read(//Users/deepak.bansodegruve.ai/.claude/commands/**)",
+      "WebFetch(domain:developers.cloudflare.com)"
     ],
     "additionalDirectories": [
       "/Users/deepak.bansodegruve.ai/.claude/commands"
