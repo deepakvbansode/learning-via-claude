@@ -12,7 +12,7 @@ Save everything between the fences to `~/.claude/commands/learn.md`:
 ---
 description: Learn a technology before building with it (Socratic method)
 argument-hint: <technology-or-topic>
-allowed-tools: ["Read", "Grep", "Glob", "WebSearch", "WebFetch", "AskUserQuestion", "Task", "mcp__plugin_context7_context7__resolve-library-id", "mcp__plugin_context7_context7__query-docs"]
+allowed-tools: ["Read", "Write", "Grep", "Glob", "WebSearch", "WebFetch", "AskUserQuestion", "Task", "mcp__plugin_context7_context7__resolve-library-id", "mcp__plugin_context7_context7__query-docs"]
 model: opus
 ---
 
@@ -129,22 +129,32 @@ Progress: [■■■□□] 3/5 concepts mastered
 
 ## Phase 3: GRADUATE
 
-When ALL concepts are mastered, declare the user ready and generate the session handoff.
+When ALL concepts are mastered, generate notes, save them to the repo, and output the session handoff.
 
-**Output this EXACT structure:**
+### Step 1 — Determine save path
 
-\```
-## You're Ready!
+Map the topic to the correct folder in `/Users/deepakbansode/Documents/Learning/learning-via-claude/`:
 
-You've mastered all [N] concepts for $ARGUMENTS.
+| Topic category | Folder |
+| --- | --- |
+| AI, LLMs, embeddings, RAG, Bedrock, Claude, MCP | `ai/` |
+| Kubernetes, Docker, Helm, containers | `k8s/` |
+| CI/CD, GitHub Actions, runners, Git | `github/` |
+| Architecture patterns (hexagonal, DDD, CQRS, Temporal) | `architecture/` |
+| CDN, traffic steering, Fastly, Cloudflare | `cdn/` |
+| Identity, auth, IDP, SSO, OAuth | `idp/` |
+| Security, SASE, zero-trust, networking | `sase/` |
+| Other | create a new folder matching the domain |
 
-### Session Notes
-Save this to a `<topic>.md` file for future reference:
+Filename: lowercase, hyphens for spaces — e.g. `react-query.md`, `opentelemetry.md`.
 
----
+### Step 2 — Generate notes in this EXACT format
+
+\```markdown
 # $ARGUMENTS
 
 ## The Problem It Solves
+
 [2-3 sentences: what pain exists without this technology, and what it fundamentally does to fix it]
 
 ---
@@ -153,57 +163,87 @@ Save this to a `<topic>.md` file for future reference:
 
 ### [Concept Name]
 
-**Why:** [1-2 sentences: what specific problem this concept solves within the technology]
+**Why:** [1-2 sentences: what specific problem this concept solves]
 
-**Mental model:** [1-2 sentences: analogy to something the user already knows — Go, K8s, Docker, PostgreSQL, etc.]
+**Mental model:** [1-2 sentences: analogy to Go, K8s, Docker, Postgres, gRPC, or another tool the user knows]
 
 **Example:**
-\`\`\`
-[Minimal, concrete code or config that illustrates the concept — not a full implementation]
-\`\`\`
 
-[Repeat for each concept]
+\`\`\`[language]
+[Minimal, concrete code or config illustrating the concept — not a full implementation]
+\`\`\`
 
 ---
 
+[Repeat ### block for each concept, with --- between each one]
+
 ## Gotchas
-1. [Specific, non-obvious pitfall with brief explanation]
-2. [...]
-3. [...]
+
+1. **[Key phrase]** — [specific, non-obvious pitfall with brief explanation]
+2. **[Key phrase]** — [...]
+3. **[Key phrase]** — [...]
 
 ---
 
 ## Quick Reference
 
-**[Key syntax / variables / commands]**
-\`\`\`
-thing1    // when/why to use it
-thing2    // when/why to use it
+**[Category — services / commands / options]:**
+
+\`\`\`text
+thing1    # when/why to use it
+thing2    # when/why to use it
 \`\`\`
 
-**[Common patterns]**
-\`\`\`
-pattern1  // use for X
-pattern2  // use for Y
-\`\`\`
-
-**[Policies / options / flags]** *(if applicable)*
+**[Decision table]** *(if applicable)*
 
 | Option | Use when |
-|--------|----------|
+| --- | --- |
 | opt1   | ...      |
 | opt2   | ...      |
 
 ---
 
-### Session Handoff Prompt
-Copy this into a new Claude Code session when you're ready to build:
+## Flashcards
+
+**Q: What problem does $ARGUMENTS solve?**  
+A: [1-2 sentence answer]
+
+**Q: What is [core concept 1] and why does it exist?**  
+A: [1-2 sentence answer]
+
+**Q: What is the difference between [concept A] and [concept B]?**  
+A: [1-2 sentence answer]
+
+**Q: [Gotcha question — e.g. "What breaks if you do X?"]**  
+A: [1-2 sentence answer]
+
+[5-8 cards total covering: core definition, key trade-offs, common gotchas, decision criteria]
 
 ---
-I know $ARGUMENTS well. Quick context:
-[2-3 sentence mental model of the whole technology in their own words]
-I'm building: [describe your task here]
----
+
+## Session Handoff Prompt
+
+> I know $ARGUMENTS well. Quick context: [2-3 sentence mental model of the whole technology in the user's own words]. I'm building: [describe your task here]
+\```
+
+### Step 3 — Save with Write tool
+
+Use the Write tool to save the generated notes to:
+`/Users/deepakbansode/Documents/Learning/learning-via-claude/<folder>/<topic>.md`
+
+If the file already exists, read it first, then overwrite with the new content.
+
+### Step 4 — Declare ready
+
+Output:
+
+\```
+## You're Ready!
+
+You've mastered all [N] concepts for $ARGUMENTS.
+Notes saved to `<relative-path>`.
+
+Copy the Session Handoff Prompt from the notes into a new Claude Code session when you're ready to build.
 \```
 
 **Important for generating the notes:**
@@ -211,7 +251,9 @@ I'm building: [describe your task here]
 - Every concept must have all three sections: Why, Mental model, Example
 - Mental models must reference their existing stack (Go, K8s, Docker, etc.)
 - Examples should be minimal and illustrative — not full implementations
-- Gotchas must be specific and actionable, not generic warnings
+- Gotchas must be **bold key phrase** — explanation format, specific and actionable
+- Put `---` between each concept block and before Gotchas, Quick Reference, Flashcards, and Session Handoff
+- Flashcards must cover: what it is, why it exists, key trade-offs, and the top gotcha
 
 ---
 
